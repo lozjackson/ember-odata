@@ -107,6 +107,26 @@ export default RESTSerializer.extend({
   },
 
   /**
+    @method normalizeArrayResponse
+    @param {DS.Store} store
+    @param {DS.Model} primaryModelClass
+    @param {Object} payload
+    @param {String|Number} id
+    @param {String} requestType
+    @return {Object} JSON-API Document
+  */
+  normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {
+    if (payload.d) {
+      let key = String(primaryModelClass).split(':')[1];
+      key = Ember.String.pluralize(key);
+      if (payload.d.results) {
+        payload = { key: payload.d.results };
+      }
+    }
+    return this._normalizeResponse(store, primaryModelClass, payload, id, requestType, false);
+  },
+
+  /**
     Returns the resource's relationships formatted as a JSON-API "relationships object".
     http://jsonapi.org/format/#document-resource-object-relationships
     @method extractRelationships
