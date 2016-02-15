@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import OdataSerializer from 'dummy/serializers/odata';
-// import Ember from 'ember';
 
 module('odata', 'Unit | Serializer | odata', {
 });
@@ -40,7 +39,4 @@ test('normalizeArrayResponse() method', function(assert) {
   };
 
   serializer.normalizeArrayResponse(null, modelClass, originalPayload);
-  // assert.equal(serializer.keyForRelationship('user'), 'User', `'keyForRelationship)' method should return capitalized string`);
-
-  // assert.equal(serializer.keyForRelationship('modifiedBy'), 'ModifiedBy', `'keyForRelationship()' method should return capitalized string`);
 });
