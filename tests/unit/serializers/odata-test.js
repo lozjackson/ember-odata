@@ -24,16 +24,57 @@ test('keyForRelationship() method should return capitalized string', function(as
   assert.equal(serializer.keyForRelationship('modifiedBy'), 'ModifiedBy', `'keyForRelationship()' method should return capitalized string`);
 });
 
-test('serializeAttribute() method with no changed attributes should return undefined', function(assert) {
+test('serializeAttribute() method with no changed attributes should return {}', function(assert) {
   let serializer = OdataSerializer.create();
+  let json = {};
   let snapshot = {
     changedAttributes: () => {
       return {};
     },
     record: Ember.Object.create({ isNew: false })
   };
-  let serializedAttribute = serializer.serializeAttribute(snapshot, {}, 'testKey');
-  assert.equal(serializedAttribute, undefined);
+  serializer.serializeAttribute(snapshot, json, 'testKey');
+  assert.equal(Object.keys(json).length, 0);
+});
+
+test('serializeAttribute() method with changed attribute', function(assert) {
+  let serializer = OdataSerializer.create();
+  let attribute = { type: 'string' };
+  let json = {};
+  serializer.transformFor = () => {
+    return {
+      serialize: (value) => { return value; }
+    };
+  };
+  serializer._getMappedKey = () => { return 'testKey'; };
+  let snapshot = {
+    changedAttributes: () => { return {testKey: 'testValue'}; },
+    attr: () => { return 'testValue'; },
+    record: Ember.Object.create({ isNew: false })
+  };
+  serializer.serializeAttribute(snapshot, json, 'testKey', attribute);
+  assert.equal(Object.keys(json).length, 1);
+  assert.equal(json.TestKey, 'testValue');
+});
+
+test('serializeAttribute() method - new record', function(assert) {
+  let serializer = OdataSerializer.create();
+  let attribute = { type: 'string' };
+  let json = {};
+  serializer.transformFor = () => {
+    return {
+      serialize: (value) => { return value; }
+    };
+  };
+  serializer._getMappedKey = () => { return 'testKey'; };
+  let snapshot = {
+    changedAttributes: () => { return {}; },
+    attr: () => { return 'testValue'; },
+    record: Ember.Object.create({ isNew: true })
+  };
+  serializer.serializeAttribute(snapshot, json, 'testKey', attribute);
+  assert.equal(Object.keys(json).length, 1);
+  assert.equal(json.TestKey, 'testValue');
 });
 
 test('normalizeArrayResponse() method', function(assert) {
