@@ -119,11 +119,11 @@ export default RESTSerializer.extend({
     }
     ```
 
-    should be :
+    should be normailzed to:
 
     ```
     {
-      jobs: [
+      posts: [
         {Id: 1, Title: 'test', Peeople: [10]}
       ]
     }
@@ -142,7 +142,7 @@ export default RESTSerializer.extend({
       let key = String(primaryModelClass).split(':')[1];
       key = Ember.String.pluralize(key);
       if (payload.d.results) {
-        payload = { key: payload.d.results };
+        payload = { [key]: payload.d.results };
       }
     }
     return this._normalizeResponse(store, primaryModelClass, payload, id, requestType, false);
