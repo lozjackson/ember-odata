@@ -26,6 +26,12 @@ module("Unit | Adapter | application", {
   }
 });
 
+test("queryStringParams should be []", function(assert) {
+  assert.expect(2);
+  assert.equal(typeof adapter.get('queryStringParams'), 'object');
+  assert.equal(adapter.get('queryStringParams.length'), 0);
+});
+
 test("When an id is searched, the correct url should be generated", function(assert) {
   assert.expect(2);
   var count = 0;
