@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import OdataSerializer from 'dummy/serializers/odata';
+import Ember from 'ember';
 
 module('odata', 'Unit | Serializer | odata', {
 });
@@ -21,6 +22,18 @@ test('keyForRelationship() method should return capitalized string', function(as
   assert.equal(serializer.keyForRelationship('user'), 'User', `'keyForRelationship)' method should return capitalized string`);
 
   assert.equal(serializer.keyForRelationship('modifiedBy'), 'ModifiedBy', `'keyForRelationship()' method should return capitalized string`);
+});
+
+test('serializeAttribute() method with no changed attributes should return undefined', function(assert) {
+  let serializer = OdataSerializer.create();
+  let snapshot = {
+    changedAttributes: () => {
+      return {};
+    },
+    record: Ember.Object.create({ isNew: false })
+  };
+  let serializedAttribute = serializer.serializeAttribute(snapshot, {}, 'testKey');
+  assert.equal(serializedAttribute, undefined);
 });
 
 test('normalizeArrayResponse() method', function(assert) {
