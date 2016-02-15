@@ -192,15 +192,18 @@ export default RESTSerializer.extend({
                 resourceHash.links = {};
               }
               resourceHash.links[key] = relationshipHash.__deferred.uri;
-              delete resourceHash[key];
+              // delete relationshipHash.__deferred;
+              delete resourceHash[relationshipKey];
+              relationshipHash = null;
             }
             //////////////
 
-
-            data = new Array(relationshipHash.length);
-            for (let i = 0, l = relationshipHash.length; i < l; i++) {
-              let item = relationshipHash[i];
-              data[i] = this.extractRelationship(relationshipMeta.type, item);
+            if (relationshipHash) {
+              data = new Array(relationshipHash.length);
+              for (let i = 0, l = relationshipHash.length; i < l; i++) {
+                let item = relationshipHash[i];
+                data[i] = this.extractRelationship(relationshipMeta.type, item);
+              }
             }
           }
         }
