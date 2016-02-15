@@ -1,6 +1,21 @@
 # Ember-odata
 
-This README outlines the details of collaborating on this Ember addon.
+This Ember-cli addon is an attempt to make ember-data work with an odata api.
+
+## Supported methods
+
+Currently supported methods:
+
+* GET
+* PUT (MERGE)
+
+POST and DELETE have not been implemented yet.
+
+## Relationships
+
+* `HasMany` relationships are supported.  
+
+`BelongsTo` relationships have not been implemented or tested yet.
 
 ## Installation
 
