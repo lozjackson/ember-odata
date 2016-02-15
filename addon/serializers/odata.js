@@ -75,6 +75,7 @@ export default RESTSerializer.extend({
   },
 
   /**
+
    `serializeAttribute` can be used to customize how `DS.attr`
    properties are serialized
    For example if you wanted to ensure all your attributes were always
@@ -107,6 +108,27 @@ export default RESTSerializer.extend({
   },
 
   /**
+
+    ```
+    {
+      d: {
+        results: [
+          {Id: 1, Title: 'test', Peeople: [10]}
+        ]
+      }
+    }
+    ```
+
+    should be :
+
+    ```
+    {
+      jobs: [
+        {Id: 1, Title: 'test', Peeople: [10]}
+      ]
+    }
+    ```
+
     @method normalizeArrayResponse
     @param {DS.Store} store
     @param {DS.Model} primaryModelClass
