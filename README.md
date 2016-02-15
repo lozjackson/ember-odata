@@ -6,10 +6,10 @@ This Ember-cli addon is an attempt to make ember-data work with an odata api.
 
 Currently supported methods:
 
-* GET
-* PUT (MERGE)
+* `GET`
+* `PUT` (MERGE)
 
-POST and DELETE have not been implemented yet.
+`POST` and `DELETE` have not been implemented or tested yet.
 
 ## Relationships
 
