@@ -49,7 +49,7 @@ test("When an id is searched, the correct url should be generated", function(ass
 });
 
 test("_buildURL, the correct url should be generated", function(assert) {
-  assert.expect(1);
+  assert.expect(2);
   let url;
   adapter.queryStringParams = [
     '$select=Id,Modified,Title,StatusValue,ProblemDescription,AssignedTo/Id,Requester/Id',
@@ -57,6 +57,9 @@ test("_buildURL, the correct url should be generated", function(assert) {
   ];
   run(() => url = adapter._buildURL('person', 1));
   assert.equal(url, '/people(1)?$select=Id,Modified,Title,StatusValue,ProblemDescription,AssignedTo/Id,Requester/Id&$expand=AssignedTo,Requester', "should create the correct url");
+
+  run(() => url = adapter._buildURL('person'));
+  assert.equal(url, '/people?$select=Id,Modified,Title,StatusValue,ProblemDescription,AssignedTo/Id,Requester/Id&$expand=AssignedTo,Requester', "should create the correct url, with no id");
 });
 
 test("id's should be sanatized", function(assert) {

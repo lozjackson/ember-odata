@@ -87,7 +87,7 @@ export default RESTAdapter.extend({
       if (path) { url.push(path); }
     }
 
-    if (isNaN(id)) { url.push(encodeURIComponent(id)); }
+    if (id && isNaN(id)) { url.push(encodeURIComponent(id)); }
     if (prefix) { url.unshift(prefix); }
 
     url = url.join('/');
