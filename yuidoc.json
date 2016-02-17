@@ -1,0 +1,12 @@
+{
+  "name": "ember-odata",
+  "description": "An adapter and serializer to make ember-data work with an odata api",
+  "url": "https://github.com/lozjackson/ember-odata",
+  "options": {
+    "paths": [
+      "addon"
+    ],
+    "exclude": "vendor",
+    "outdir":   "docs"
+  }
+}
