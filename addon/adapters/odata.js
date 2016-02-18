@@ -114,6 +114,41 @@ export default RESTAdapter.extend({
   },
 
   /**
+    Called by the store in order to fetch a JSON array for
+    the records that match a particular query.
+    The `query` method makes an Ajax (HTTP GET) request to a URL
+    computed by `buildURL`, and returns a promise for the resulting
+    payload.
+
+    NOTE:  The `query` argument is appended to the url as a query string.
+
+    @method query
+    @param {DS.Store} store
+    @param {DS.Model} type
+    @param {Object} query
+    @return {Promise} promise
+  */
+  query: function(store, type, query) {
+    let str = '';
+    let keys;
+    var url = this.buildURL(type.modelName, null, null, 'query', query);
+
+    if (this.sortQueryParams) {
+      query = this.sortQueryParams(query);
+    }
+
+    keys = Object.keys(query);
+    if (keys.length) {
+      keys.forEach(function (key) {
+        str += `${key}=${encodeURI(query[key])}`;
+      });
+      url += (url.indexOf('?') === -1) ? '?':'&';
+      url += str;
+    }
+    return this.ajax(url, 'GET');
+  },
+
+  /**
     Determines the pathname for a given type.
     By default, it pluralizes the type's name (for example,
     'post' becomes 'posts' and 'person' becomes 'people').
