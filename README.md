@@ -2,10 +2,14 @@
 
 This Ember-cli addon is an attempt to make ember-data work with an odata api.
 
-There is an `OdataAdapter` that extends the ember-data `RESTAdapter`.  There is
-also an `OdataSerializer` that extends the `RESTSerializer`.
+The addon provides an `OdataAdapter` that extends the ember-data `RESTAdapter`
+and an `OdataSerializer` that extends the `RESTSerializer`.
 
 Tested with ember-data v2.3.0
+
+## Installation
+
+* `npm install` this repository
 
 ## OdataAdapter
 
@@ -69,9 +73,6 @@ oData api to be consumed by ember-data.
 
 * `BelongsTo` relationships have not been implemented or tested yet.
 
-## Installation
-
-* `npm install` this repository
 
 ## Contributing
 
