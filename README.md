@@ -42,6 +42,12 @@ For example, query for all `post` records by the `Author` with the name of `Pete
 store.query('post', { $filter: "Author/Name eq Peter" }}); // => GET /posts?$filter=Author/Name eq Peter
 ```
 
+* `store.queryRecord()` behaves the same as `store.query()`
+
+```
+store.queryRecord('post', { $filter: "Author/Name eq Peter" }}); // => GET /posts?$filter=Author/Name eq Peter
+```
+
 ### PUT
 
 * `model.save()` will produce a `PUT` (MERGE) request.
