@@ -208,3 +208,39 @@ test('query() method - add to existing query params', function (assert) {
   adapter.query(null, modelType, { test: 1 });
   assert.ok(adapter);
 });
+
+test('query() method - add multiple query params', function (assert) {
+  assert.expect(4);
+  adapter.setProperties({
+    // queryStringParams: ['$select=Id,Name,Person/id', '$expand=Person'],
+    namespace: 'api/server.php',
+    ajax: (url, method, obj) => {
+      assert.equal(url, '/api/server.php/people?another=abc&test=1');
+      assert.equal(method, 'GET');
+      assert.equal(typeof obj, 'undefined');
+    }
+  });
+  let modelType = Ember.Object.create({
+    modelName: 'person'
+  });
+  adapter.query(null, modelType, { test: 1, another: 'abc' });
+  assert.ok(adapter);
+});
+
+test('query() method - add multiple query params to existing', function (assert) {
+  assert.expect(4);
+  adapter.setProperties({
+    queryStringParams: ['$select=Id,Name,Person/id', '$expand=Person'],
+    namespace: 'api/server.php',
+    ajax: (url, method, obj) => {
+      assert.equal(url, '/api/server.php/people?$select=Id,Name,Person/id&$expand=Person&another=abc&test=1');
+      assert.equal(method, 'GET');
+      assert.equal(typeof obj, 'undefined');
+    }
+  });
+  let modelType = Ember.Object.create({
+    modelName: 'person'
+  });
+  adapter.query(null, modelType, { test: 1, another: 'abc' });
+  assert.ok(adapter);
+});
