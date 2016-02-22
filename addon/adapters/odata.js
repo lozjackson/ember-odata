@@ -114,6 +114,39 @@ export default RESTAdapter.extend({
   },
 
   /**
+    @method _buildQueryString
+    @private
+    @param {Object} query
+    @return {String}
+  */
+  _buildQueryString(query) {
+    let params = [];
+    let keys = Object.keys(query);
+    if (keys.length) {
+      keys.forEach(function (key) {
+        params.push(`${key}=${encodeURI(query[key])}`);
+      });
+    }
+    return params.join('&');
+  },
+
+  /**
+    @method _appendQueryString
+    @private
+    @param {String} url
+    @param {Object} query
+    @return {String}
+  */
+  _appendQueryString(url, query) {
+    let queryString = this._buildQueryString(query);
+    if (queryString) {
+      url += (url.indexOf('?') === -1) ? '?':'&';
+      url += queryString;
+    }
+    return url;
+  },
+
+  /**
     Called by the store in order to fetch a JSON array for
     the records that match a particular query.
     The `query` method makes an Ajax (HTTP GET) request to a URL
@@ -129,22 +162,43 @@ export default RESTAdapter.extend({
     @return {Promise} promise
   */
   query: function(store, type, query) {
-    let params = [];
-    let keys;
     var url = this.buildURL(type.modelName, null, null, 'query', query);
 
     if (this.sortQueryParams) {
       query = this.sortQueryParams(query);
     }
 
-    keys = Object.keys(query);
-    if (keys.length) {
-      keys.forEach(function (key) {
-        params.push(`${key}=${encodeURI(query[key])}`);
-      });
-      url += (url.indexOf('?') === -1) ? '?':'&';
-      url += params.join('&');
+    url = this._appendQueryString(url, query);
+
+    return this.ajax(url, 'GET');
+  },
+
+  /**
+    Called by the store in order to fetch a JSON object for
+    the record that matches a particular query.
+    The `queryRecord` method makes an Ajax (HTTP GET) request to a URL
+    computed by `buildURL`, and returns a promise for the resulting
+    payload.
+    The `query` argument is a simple JavaScript object that will be passed directly
+    to the server as parameters.
+
+    NOTE:  The `query` argument is appended to the url as a query string.
+
+    @method queryRecord
+    @param {DS.Store} store
+    @param {DS.Model} type
+    @param {Object} query
+    @return {Promise} promise
+  */
+  queryRecord: function(store, type, query) {
+    var url = this.buildURL(type.modelName, null, null, 'queryRecord', query);
+
+    if (this.sortQueryParams) {
+      query = this.sortQueryParams(query);
     }
+
+    url = this._appendQueryString(url, query);
+
     return this.ajax(url, 'GET');
   },
 
