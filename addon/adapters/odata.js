@@ -129,7 +129,7 @@ export default RESTAdapter.extend({
     @return {Promise} promise
   */
   query: function(store, type, query) {
-    let str = '';
+    let params = [];
     let keys;
     var url = this.buildURL(type.modelName, null, null, 'query', query);
 
@@ -140,10 +140,10 @@ export default RESTAdapter.extend({
     keys = Object.keys(query);
     if (keys.length) {
       keys.forEach(function (key) {
-        str += `${key}=${encodeURI(query[key])}`;
+        params.push(`${key}=${encodeURI(query[key])}`);
       });
       url += (url.indexOf('?') === -1) ? '?':'&';
-      url += str;
+      url += params.join('&');
     }
     return this.ajax(url, 'GET');
   },
