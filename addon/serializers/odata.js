@@ -108,6 +108,25 @@ export default RESTSerializer.extend({
   },
 
   /**
+    @method normalizeSingleResponse
+    @param {DS.Store} store
+    @param {DS.Model} primaryModelClass
+    @param {Object} payload
+    @param {String|Number} id
+    @param {String} requestType
+    @return {Object} JSON-API Document
+  */
+  normalizeSingleResponse(store, primaryModelClass, payload, id, requestType) {
+    if (payload.d) {
+      let key = String(primaryModelClass).split(':')[1];
+      if (payload.d) {
+        payload = { [key]: payload.d };
+      }
+    }
+    return this._normalizeResponse(store, primaryModelClass, payload, id, requestType, true);
+  },
+
+  /**
 
     ```
     {

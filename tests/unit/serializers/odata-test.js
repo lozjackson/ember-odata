@@ -78,19 +78,35 @@ test('serializeAttribute() method - new record', function(assert) {
   assert.equal(json.TestKey, 'testValue');
 });
 
+test('normalizeSingleResponse() method', function(assert) {
+  assert.expect(2);
+  let serializer = OdataSerializer.create();
+  let modelClass = 'posts@model:post:';
+  let originalPayload = {
+    d: {Id: 1, Title: 'test', People: [10]}
+  };
+  serializer._normalizeResponse = function (store, primaryModelClass, payload) {
+    assert.equal(payload.post.Id, 1);
+    assert.equal(payload.post.People[0], 10);
+  };
+
+  serializer.normalizeSingleResponse(null, modelClass, originalPayload);
+});
+
 test('normalizeArrayResponse() method', function(assert) {
-  assert.expect(1);
+  assert.expect(2);
   let serializer = OdataSerializer.create();
   let modelClass = 'posts@model:post:';
   let originalPayload = {
     d: {
       results: [
-        {Id: 1, Title: 'test', Peeople: [10]}
+        {Id: 1, Title: 'test', People: [10]}
       ]
     }
   };
   serializer._normalizeResponse = function (store, primaryModelClass, payload) {
     assert.equal(payload.posts[0].Id, 1);
+    assert.equal(payload.posts[0].People[0], 10);
   };
 
   serializer.normalizeArrayResponse(null, modelClass, originalPayload);
