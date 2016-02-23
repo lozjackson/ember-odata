@@ -143,6 +143,6 @@ test('extractRelationships() method - relationship with link', function(assert) 
   });
   let resourceHash = {Id: 1, Title: 'test', People: { __deferred: {uri: 'example.com/people'} }};
   let relationships = serializer.extractRelationships(modelClass, resourceHash);
-  assert.equal(relationships.people.data, undefined);
+  assert.equal(typeof relationships.people.data, 'undefined', `'data' should be undefined`);
   assert.equal(relationships.people.links.related, 'example.com/people');
 });

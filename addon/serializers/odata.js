@@ -211,7 +211,6 @@ export default RESTSerializer.extend({
                 resourceHash.links = {};
               }
               resourceHash.links[key] = relationshipHash.__deferred.uri;
-              // delete relationshipHash.__deferred;
               delete resourceHash[relationshipKey];
               relationshipHash = null;
             }
@@ -226,7 +225,9 @@ export default RESTSerializer.extend({
             }
           }
         }
-        relationship = { data };
+        if (data) {
+          relationship = { data };
+        }
       }
 
       let linkKey = this.keyForLink(key, relationshipMeta.kind);
